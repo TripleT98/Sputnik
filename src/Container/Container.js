@@ -4,6 +4,9 @@ import Header from "./Header/Header";
 
 
 let StyledContainer = styled.div`
+  width: 1500px;
+  height: 800px;
+  background-color: white;
 
 `
 function Container(){
