@@ -1,10 +1,11 @@
 import styled from "styled-components";
-
+import { Input, AutoComplete } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 let StyledHeader = styled.div`
 margin-bottom: 20px;
 height: 15%;
-background-color: rgb(12, 132, 222);
+width: 100%;
 `
 function Header(){
   return (
