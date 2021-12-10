@@ -1,65 +1,91 @@
 import styled from "styled-components";
-import {StyledTemperature} from "./../MainInfo/MainInfo";
-import sun from "./../../../Images/01d.png";
-import sun_cloud from "./../../../Images/02d.png";
-import cloud from "./../../../Images/03d.png";
-import cloud_2 from "./../../../Images/02d.png";
-import cloud_rain from "./../../../Images/09d.png";
-import cloud_rain_sun from "./../../../Images/10d.png";
-import lightning from "./../../../Images/11d.png";
-import snow from "./../../../Images/13d.png";
-import mist from "./../../../Images/50d.png"
+import images from "./../../../Images/Images.js";
+import {connect} from "react-redux";
 
 let StyledDays = styled.div`
 grid-area: d;
 display: flex;
 justify-content: space-between;
+
 `
 
-let StyledDay = styled(StyledTemperature)`
-height: 100%;
-width: 13.5%;
+let StyledDay = styled.div`
+border: white solid 10px;
+color: white;
+font-weight: 520;
+font-size: 30px;
 display: grid;
+height: 100%;
+width: 24%;
 grid-template-areas: "i i t" "i i t" "n n n";
+box-shadow: 0 0 1rem 0 rgba(41, 39, 39, 0.2);
+border-radius: 3px;
+position: relative;
+z-index: 1;
+background: inherit;
+overflow: hidden;
+&:before{
+content: "";
+position: absolute;
+background: inherit;
+z-index: -1;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+box-shadow: inset 0 0 2000px rgba(241, 241, 241, 0.5);
+filter: blur(1px);
+}
 `
 
-let StyledIcon = styled.div`
+let StyledIconPlace = styled.div`
 grid-area: i;
 width: 100%;
 height: 100%;
-background-repeat: no-repeat;
-background-image:${props=>`url(${sun})`};
-background-size: 90px 90px;
 filter: grayscale(1);
-background-position: 10px 10px;
+position:relative;
 `
 
+let StyledIcon = styled.img`
+position: absolute;
+top: 10px;
+left: 10px;
+width: 120px;
+height: auto;
+`
 
 let StyledTemp = styled.div`
 grid-area: t;
 width: 100%;
+display: flex;
 
+justify-content: center;
+align-items: center;
 `
 
 let StyledName = styled.div`
 grid-area: n;
 width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 `
 
-function Day(){
+function Day(props){
   return (
     <StyledDay>
-     <StyledIcon></StyledIcon>
-     <StyledTemp />
-     <StyledName />
+     <StyledIconPlace><StyledIcon src={images[props.icon]}/></StyledIconPlace>
+     <StyledTemp>{props.temp}</StyledTemp>
+     <StyledName><p>{props.date}</p><p>{props.day}</p></StyledName>
     </StyledDay>
   )
 }
 
-function Days(){
+function Days(props){
   let arr = [];
-  for(let i = 0; i < 7; i++){
-    arr.push(<Day/>)
+  for(let i = 0; i < props.days.length; i++){
+    arr.push(<Day temp={props.days[i].temp} date={props.days[i].date} day={props.days[i].day} icon={props.days[i].icon}/>)
   }
   return(
     <StyledDays>
@@ -68,5 +94,16 @@ function Days(){
   )
 }
 
+function stateToProps(state){
+  return{
+    days: state.forWeather.days,
+  }
+}
 
-export default Days;
+function dispatchToProps(dispatch){
+  return{
+
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(Days);

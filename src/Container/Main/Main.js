@@ -3,6 +3,8 @@ import Days from "./Day/Day";
 import MainInfo from "./MainInfo/MainInfo";
 import Side from "./Side/Side";
 import {connect} from "react-redux";
+import {setPlaceThunkCreator} from "./../../STORE/WeatherReducer";
+import {useEffect} from "react";
 
 let StyledMain = styled.div`
 height: 85%;
@@ -14,6 +16,9 @@ grid-gap: 10px;
 width: 100%;
 `
 function Main(props){
+  useEffect(()=>{
+    props.setPlace();
+  },[])
   return (
     <StyledMain>
       <MainInfo {...props}/>
@@ -24,19 +29,24 @@ function Main(props){
 }
 
 function stateToProps(state){
+  let place = state.forWeather.currentPlace;
+  let weather = state.forWeather.weather;
   return{
-    country: "KZ",
-    city: "TARAZ",
-    temperature: 25,
-    humidity: 100,
-    pressure: 1018,
-    wind: 9
+    country: place.country,
+    city: place.city,
+    temperature: weather.temperature,
+    humidity: weather.humidity,
+    pressure: weather.pressure,
+    wind: weather.wind,
+    icon: weather.icon
   }
 }
 
 function dispatchToProps(dispatch){
   return{
-
+    setPlace:function(){
+      dispatch(setPlaceThunkCreator());
+    }
   }
 }
 

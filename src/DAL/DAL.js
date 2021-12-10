@@ -3,7 +3,8 @@ import axios from "axios";
 let weatherAPI = "20dd362259faf4f08b11c3de4bf6f43c";
 
 export function getInfoAboutCity(name){
-  return axios.get("http://api.openweathermap.org/data/2.5/forecast",{params:{appid:weatherAPI,q:name}}).then(function(data){return data},(error)=>{return new Error(error)});
+  return axios.get("http://api.openweathermap.org/data/2.5/forecast",{params:{appid:weatherAPI,q:name}}).then(function(data){console.log(data.code);return data},(data)=>{return {cod:404,
+  message:"city not found"}});
 }
 
 export function getMinePosition(){
