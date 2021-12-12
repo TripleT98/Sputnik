@@ -1,14 +1,7 @@
 import styled from "styled-components";
 import {useState, useEffect} from "react";
-import sun from "./../../../Images/01d.png";
-import sun_cloud from "./../../../Images/02d.png";
-import cloud from "./../../../Images/03d.png";
-import cloud_2 from "./../../../Images/02d.png";
-import cloud_rain from "./../../../Images/09d.png";
-import cloud_rain_sun from "./../../../Images/10d.png";
-import lightning from "./../../../Images/11d.png";
-import snow from "./../../../Images/13d.png";
-import mist from "./../../../Images/50d.png"
+import images from "./../../../Images/Images";
+
 
 let StyledMainInfo = styled.div`
 grid-area: m;
@@ -66,7 +59,7 @@ grid-area: si;
 let StyledIcon = styled(StyledTemperature)`
 font-size: 50px;
 grid-area: sc;
-background: ${props=>`url(${sun}) no-repeat 50%`};
+background: ${props=>`url(${images[props.icon]}) no-repeat 50%`};
 background-size: 150px;
 filter: grayscale(1);
 `
@@ -82,34 +75,10 @@ function MainInfo(props){
   return(
     <StyledMainInfo>
       <StyledTemperature><p>{props.temperature + "°C"}</p></StyledTemperature>
-      <StyledName>     <p>{props.country + ", " + props.city}</p><p>{(time.getDate() < 10?"0"+time.getDate():time.getDate()) + "." + (time.getMonth() + 1) + "." + time.getFullYear()}</p> </StyledName>
-      <StyledTime>      {time.getMinutes() < 10?time.getHours()+":0"+time.getMinutes():time.getHours()+":"+time.getMinutes()}</StyledTime>
-      <StyledIcon></StyledIcon>
+      <StyledName><p>{props.country + ", " + props.city}</p><p>{(time.getDate() < 10?"0"+time.getDate():time.getDate()) + "." + (time.getMonth() + 1) + "." + time.getFullYear()}</p> </StyledName>
+      <StyledTime>{time.getMinutes() < 10?time.getHours()+":0"+time.getMinutes():time.getHours()+":"+time.getMinutes()}</StyledTime>
+      <StyledIcon icon={props.icon}></StyledIcon>
     </StyledMainInfo>
-  )
-}
-
-function Temperature(){
-  return(
-<></>
-  )
-}
-
-function Name(){
-  return(
-<></>
-  )
-}
-
-function Time(){
-  return(
-<></>
-  )
-}
-
-function Icon(){
-  return(
-<></>
   )
 }
 

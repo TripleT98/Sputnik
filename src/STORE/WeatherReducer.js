@@ -1,7 +1,8 @@
-import {getMinePosition,getInfoAboutCity} from "./../DAL/DAL";
+import {getMinePosition,getInfoAboutCity,getCityList} from "./../DAL/DAL";
 
 let SET_PLACE = "SET_PLACE";
 let SET_ERR = "SET_ERR";
+let SET_CITY_LIST = "SET_CITY_LIST";
 
 let initialState = {
   currentPlace:{
@@ -14,7 +15,8 @@ let initialState = {
     pressure: 1018,
     wind: 9
   },
-  days:[]
+  days:[],
+  list:[],
 }
 
 class Day{
@@ -68,6 +70,9 @@ function weatherReducer(state=initialState, action){
       }
       return newState;
     }
+    case SET_CITY_LIST:{
+      return {...state, list:action.data}
+    }
     default: return state
   }
 }
@@ -85,19 +90,32 @@ function setErrAC(){
   }
 }
 
+function setCityListAC(data){
+  return{
+     type: SET_CITY_LIST,
+     data: data
+  }
+}
+
 export function setPlaceThunkCreator(place){
   return function(dispatch){
      if(place){
-       getInfoAboutCity(place).then((data)=>{dispatch(setPlaceAC(data));console.log(data.code)}, (err)=>{setErrAC()});
+       getInfoAboutCity(place).then((data)=>{if(data.cod == 200){dispatch(setPlaceAC(data))}else if(data.cod == 404){setErrAC()}}, (err)=>{setErrAC()});
        return true;
      }
      try{
-     getMinePosition().then((data)=>{dispatch(setPlaceAC(data.data))}, (err)=>{setErrAC()});
+     getMinePosition().then((data)=>{if(data.cod == 200){dispatch(setPlaceAC(data.data))}else if(data.cod == 404){setErrAC()}}, (err)=>{setErrAC()});
    }catch(err){
      alert(err.message);
    }
      return true;
    }
+}
+
+export function getCityListThunk(word){
+  return function(dispatch){
+     getCityList(word).then((data)=>{if(data.cod == 200){dispatch(setCityListAC(data.data))}else if(data.cod == 500){}})
+  }
 }
 
 export default weatherReducer;
