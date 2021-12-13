@@ -6,13 +6,13 @@ let SET_CITY_LIST = "SET_CITY_LIST";
 
 let initialState = {
   currentPlace:{
-    country: "KZ",
-    city: "TARAZ",
+    country: "",
+    city: "",
   },
   weather:{
-    temperature: 25,
-    humidity: 100,
-    pressure: 1018,
+    temperature: 0,
+    humidity: 0,
+    pressure: 0,
     wind: 9
   },
   days:[],
@@ -104,7 +104,7 @@ export function setPlaceThunkCreator(place){
        return true;
      }
      try{
-     getMinePosition().then((data)=>{if(data.cod == 200){dispatch(setPlaceAC(data.data))}else if(data.cod == 404){setErrAC()}}, (err)=>{setErrAC()});
+     getMinePosition().then((data)=>{dispatch(setPlaceAC(data.data))}, (err)=>{setErrAC()});
    }catch(err){
      alert(err.message);
    }

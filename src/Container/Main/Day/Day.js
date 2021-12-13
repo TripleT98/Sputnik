@@ -10,7 +10,7 @@ justify-content: space-between;
 `
 
 let StyledDay = styled.div`
-border: white solid 10px;
+border: ${props=>props.dayTime == "day"?"rgb(36, 36, 36)":"white"} solid 10px;
 color: white;
 font-weight: 520;
 font-size: 30px;
@@ -18,12 +18,14 @@ display: grid;
 height: 100%;
 width: 24%;
 grid-template-areas: "i i t" "i i t" "n n n";
+grid-template-columns: 3fr 1fr 1fr;
 box-shadow: 0 0 1rem 0 rgba(41, 39, 39, 0.2);
 border-radius: 3px;
 position: relative;
 z-index: 1;
 background: inherit;
 overflow: hidden;
+color:${props => props.dayTime == "day" && "black"};
 &:before{
 content: "";
 position: absolute;
@@ -43,6 +45,7 @@ grid-area: i;
 width: 100%;
 height: 100%;
 filter: grayscale(1);
+filter: ${props=>props.dayTime == "day" && "invert(100%)"};
 position:relative;
 `
 
@@ -58,9 +61,9 @@ let StyledTemp = styled.div`
 grid-area: t;
 width: 100%;
 display: flex;
-
 justify-content: center;
 align-items: center;
+font-weight: 700;
 `
 
 let StyledName = styled.div`
@@ -70,12 +73,13 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+font-weight: 700;
 `
 
 function Day(props){
   return (
-    <StyledDay>
-     <StyledIconPlace><StyledIcon src={images[props.icon]}/></StyledIconPlace>
+    <StyledDay dayTime={props.dayTime}>
+     <StyledIconPlace dayTime={props.dayTime}><StyledIcon src={images[props.icon]}/></StyledIconPlace>
      <StyledTemp>{props.temp}</StyledTemp>
      <StyledName><p>{props.date}</p><p>{props.day}</p></StyledName>
     </StyledDay>
@@ -85,7 +89,7 @@ function Day(props){
 function Days(props){
   let arr = [];
   for(let i = 0; i < props.days.length; i++){
-    arr.push(<Day temp={props.days[i].temp} date={props.days[i].date} day={props.days[i].day} icon={props.days[i].icon}/>)
+    arr.push(<Day temp={props.days[i].temp} date={props.days[i].date} day={props.days[i].day} icon={props.days[i].icon} dayTime={props.dayTime}/>)
   }
   return(
     <StyledDays>

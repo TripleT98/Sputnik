@@ -23,7 +23,7 @@ function Main(props){
     <StyledMain>
       <MainInfo {...props}/>
       <Side />
-      <Days />
+      <Days dayTime={props.dayTime}/>
     </StyledMain>
   )
 }

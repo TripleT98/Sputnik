@@ -16,7 +16,7 @@ background-color: transparent;
 font-family: monospace;
 font-size: 50px;
 text-align: center;
-color: rgb(246, 246, 246);
+color: ${props => props.dayTime=="night"?"rgb(235, 235, 235)":"black"};
 `
 
 export let StyledTemperature = styled.div`
@@ -57,11 +57,14 @@ grid-area: si;
 `
 
 let StyledIcon = styled(StyledTemperature)`
-font-size: 50px;
 grid-area: sc;
-background: ${props=>`url(${images[props.icon]}) no-repeat 50%`};
-background-size: 150px;
+`
+
+let StyledImage = styled.img`
+width: 150px;
+height: auto;
 filter: grayscale(1);
+filter: ${props=>props.dayTime == "day" && "invert(100%)"};
 `
 
 function MainInfo(props){
@@ -73,13 +76,14 @@ function MainInfo(props){
   },[time])
 
   return(
-    <StyledMainInfo>
+    <StyledMainInfo dayTime={props.dayTime}>
       <StyledTemperature><p>{props.temperature + "°C"}</p></StyledTemperature>
       <StyledName><p>{props.country + ", " + props.city}</p><p>{(time.getDate() < 10?"0"+time.getDate():time.getDate()) + "." + (time.getMonth() + 1) + "." + time.getFullYear()}</p> </StyledName>
       <StyledTime>{time.getMinutes() < 10?time.getHours()+":0"+time.getMinutes():time.getHours()+":"+time.getMinutes()}</StyledTime>
-      <StyledIcon icon={props.icon}></StyledIcon>
+      <StyledIcon><StyledImage src={images[props.icon]} dayTime={props.dayTime}/></StyledIcon>
     </StyledMainInfo>
   )
 }
+
 
 export default MainInfo;

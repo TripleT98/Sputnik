@@ -8,6 +8,9 @@ let StyledHeader = styled.div`
 margin-bottom: 20px;
 height: 8%;
 width: 100%;
+position: relative;
+z-index: 100;
+overflow: visible;
 `
 
 let StyledInput = styled.input`
@@ -17,7 +20,7 @@ background-color: transparent;
 border: none;
 border-bottom: 2px rgb(165, 171, 172) solid;
 outline: none;
-color: rgb(165, 171, 172);
+color: ${props=>props.dayTime == "day"?"black":"rgb(165, 171, 172)"};
 font-size: 25px;
 `
 
@@ -25,13 +28,15 @@ let StyledButton = styled.button`
 margin-left: 30px;
 background-color: transparent;
 position: relative;
+z-index: 3;
 top: 0px;
 left: 0px;
 width: 40px;
 font-size: 25px;
 border: none;
-color: rgb(165, 171, 172);
+color: ${props=>props.dayTime == "day"?"black":"rgb(165, 171, 172)"};
 transition-duration: .4s;
+overflow: visible;
 &:hover{
   transition-duration: .4s;
   cursor: pointer;
@@ -56,8 +61,8 @@ function Header(props){
 
   return (
     <StyledHeader>
-       <StyledInput value={value} onChange={onChangeHandler}></StyledInput><StyledButton onClick={onClickHandler}>Search</StyledButton>
-       <List list={props.list} value={value}></List>
+       <StyledInput value={value} onChange={onChangeHandler} dayTime={props.dayTime}></StyledInput><StyledButton onClick={onClickHandler} dayTime={props.dayTime}>Search</StyledButton>
+       <List list={props.list} value={value} setValue={setValue} dayTime={props.dayTime}></List>
     </StyledHeader>
   )
 }

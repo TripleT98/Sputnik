@@ -1,70 +1,52 @@
-import styled,{keyframes,css} from "styled-components";
+import styled from "styled-components";
 import {connect} from "react-redux";
-import {useState} from "react";
+import {setPlaceThunkCreator} from "./../../STORE/WeatherReducer";
 
-let expand = keyframes`
-0%{
-height: 0px;
-}
-50%{
-height: 150px;
-}
-100%{
-height: 300px;
-}
-`
-
-let reexpand = keyframes`
-0%{
-height: 300px;
-}
-50%{
-height: 150px;
-}
-100%{
-height: 0px;
-}
-`
-let StyledList = styled.div`
-width: 300px;
-background-color: rgb(61, 80, 179);
-z-index: 3;
-position: absolute;
-opacity: .5;
-${props => {let duration = props.duration;if(props.status == "closed"){return css`animation:${expand} ${duration}s linear forwards`}else if(props.status == "opened"){return css`animation:${reexpand} ${duration}s linear forwards`}}};
-`
 
 let StyledCity = styled.div`
 width: 100%;
 margin: 3px 0px 3px 0px;
 background-color:rgb(212, 141, 67);
+max-width: max-content;
+min-width: 300px;
+height: 50px;
+background-color: rgba(148, 148, 148, 0.35);
+cursor: pointer;
+position: relative;
+z-index: 100;
+padding-left: 10px;
+display: flex;
+align-items: center;
+font-weight: 600;
+font-size: 15px;
+color: rgb(226, 226, 232);
+border: 2px solid rgb(226, 226, 232);
+transition-duration: .3s;
+&:hover{
+  background-color:rgb(226, 226, 232);
+  color: rgb(105, 105, 105);
+  transition-duration: .3s;
+}
 `
 
 function List(props){
-  console.log(props.list);
-  let duration = 0.3;
-  document.onclick = function(){
-    if(time){return false};
-    setTimeout(()=>{setTime(false)},duration*1000);
-    if(status == "closed"){
-      setStatus("opened")
-    }else{
-      setStatus("closed")
-    }
-    setTime(true);
-  };
-  let [status, setStatus] = useState("");
-  let [time, setTime] = useState(false);
-  return props.value && <StyledList status={status} duration={duration}>
-    {props.list?.map((e,i)=>{return <ListMember country={e.country} city={e.city}/>})}
-    </StyledList>
+
+  return props.value && <div>
+    {props.list?.map((e,i)=>{return <ListMember country={e.country} city={e.city} setPlace={props.setPlace} setValue={props.setValue}/>})}
+    </div>
 
 }
 
 
 function ListMember(props){
+
+  function onClickHandler(e){
+    props.setPlace(props.city);
+    props.setValue("");
+  }
+
   return (
-    <StyledCity>{props.country} {props.city}</StyledCity>
+    <StyledCity onClick={onClickHandler}><p>{props.country} | {props.city}</p></StyledCity>
   )
 }
 
@@ -77,7 +59,9 @@ function stateToProps(state){
 
 function dispatchToProps(dispatch){
   return{
-
+    setPlace: function(place){
+      dispatch(setPlaceThunkCreator(place))
+    }
   }
 }
 
