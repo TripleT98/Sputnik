@@ -1,28 +1,53 @@
-import styled from "styled-components";
+import styled,{css, keyframes} from "styled-components";
 import Main from "./Main/Main";
 import Header from "./Header/Header";
 import {connect} from "react-redux";
-import {wallpaper} from "./../Images/Images";
+import {useState, useEffect} from "react";
 
-let StyledBackground = styled.img`
-position: absolute;
-top: 0px;
-left: 0px;
+let fadeIn = keyframes`
+0%{
+  opacity: 1;
+}
+100%{
+  opacity: 0;
+}
+`
+let fadeOut = keyframes`
+0%{
+  opacity: 0;
+}
+100%{
+  opacity: 1;
+}
 `
 
 let StyledContainer = styled.div`
-  min-width: 1500px;
-  max-width: 1500px;
+  opacity: 0;
   height: 800px;
+  ${props=>{
+    switch (props.fadeStatus) {
+      case "fadeIn":
+        return css`animation: ${fadeIn} .5s linear forwards`;
+      case "fadeOut":
+        return css`animation: ${fadeOut} .5s linear forwards`;
+      default: return ""
+
+    }
+  }};
+  @media(max-width: 960px){
+    max-width: 750px;
+    min-width: 750px;
+  }
 `
 function Container(props){
-  let hours = new Date().getHours();
-  let dayTime = hours >= 18 || hours <= 4?"night":"day";
+  useEffect(()=>{
+    fade("fadeOut");
+  },[props.fadeToggle]);
+  let [fadeStatus, fade] = useState("");
   return (
-    <StyledContainer>
-       <StyledBackground src={wallpaper[props.icon]?.[dayTime] || "https://phonoteka.org/uploads/posts/2021-06/1624879195_9-phonoteka_org-p-kapli-dozhdya-na-stekle-oboi-krasivo-12.jpg"}/>
-       <Header dayTime={dayTime}/>
-       <Main dayTime={dayTime}/>
+    <StyledContainer fadeStatus={fadeStatus}>
+       <Header dayTime={props.dayTime} fade={fade} fadeStatus={fadeStatus}/>
+       <Main dayTime={props.dayTime}/>
     </StyledContainer>
   )
 }
@@ -30,6 +55,7 @@ function Container(props){
 function stateToProps(state){
   return{
     icon: state.forWeather.weather.icon,
+    fadeToggle: state.forWeather.fadeToggle
   }
 }
 

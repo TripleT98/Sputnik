@@ -32,7 +32,7 @@ transition-duration: .3s;
 function List(props){
 
   return props.value && <div>
-    {props.list?.map((e,i)=>{return <ListMember country={e.country} city={e.city} setPlace={props.setPlace} setValue={props.setValue}/>})}
+    {props.list?.map((e,i)=>{return <ListMember country={e.country} city={e.city} setPlace={props.setPlace} setValue={props.setValue} fade={props.fade}/>})}
     </div>
 
 }
@@ -41,9 +41,10 @@ function List(props){
 function ListMember(props){
 
   function onClickHandler(e){
-    props.setPlace(props.city);
-    props.setValue("");
-  }
+    props.fade("fadeIn");
+    setTimeout(()=>{props.setPlace(props.city);
+    props.setValue("");},500);
+  };
 
   return (
     <StyledCity onClick={onClickHandler}><p>{props.country} | {props.city}</p></StyledCity>

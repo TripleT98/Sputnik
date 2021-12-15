@@ -6,19 +6,28 @@ import {connect} from "react-redux";
 import {setPlaceThunkCreator} from "./../../STORE/WeatherReducer";
 import {useEffect} from "react";
 
+
+
 let StyledMain = styled.div`
 height: 85%;
 display: grid;
-grid-template-areas: "m m m s"
-                     "m m m s"
-                     "d d d d";
+grid-template-areas: "m m m s""m m m s""d d d d";
 grid-gap: 10px;
 width: 100%;
+grid-template-columns: 1fr 1fr 1fr 370px;
+grid-template-rows: 230px 180px 230px;
+
+@media(max-width: 960px){
+ grid-template-areas: "m ""m ""s ""d ""d ";
+ grid-template-rows: 170px 130px 200px 100px 100px;
+ grid-template-columns: 750px;
+}
 `
+
 function Main(props){
   useEffect(()=>{
     props.setPlace();
-  },[])
+  },[]);
   return (
     <StyledMain>
       <MainInfo {...props}/>
@@ -38,7 +47,8 @@ function stateToProps(state){
     humidity: weather.humidity,
     pressure: weather.pressure,
     wind: weather.wind,
-    icon: weather.icon
+    icon: weather.icon,
+    isFetching: state.forWeather.isFetching,
   }
 }
 
@@ -49,5 +59,6 @@ function dispatchToProps(dispatch){
     }
   }
 }
+
 
 export default connect(stateToProps, dispatchToProps)(Main);

@@ -10,7 +10,7 @@ justify-content: space-between;
 `
 
 let StyledDay = styled.div`
-border: ${props=>props.dayTime == "day"?"rgb(36, 36, 36)":"white"} solid 10px;
+border: ${props=>props.dayTime === "day"?"rgb(36, 36, 36)":"white"} solid 10px;
 color: white;
 font-weight: 520;
 font-size: 30px;
@@ -18,14 +18,14 @@ display: grid;
 height: 100%;
 width: 24%;
 grid-template-areas: "i i t" "i i t" "n n n";
-grid-template-columns: 3fr 1fr 1fr;
+grid-template-columns: 2.7fr 0.9fr 0.9fr;
 box-shadow: 0 0 1rem 0 rgba(41, 39, 39, 0.2);
 border-radius: 3px;
 position: relative;
 z-index: 1;
 background: inherit;
 overflow: hidden;
-color:${props => props.dayTime == "day" && "black"};
+color:${props => props.dayTime === "day" && "black"};
 &:before{
 content: "";
 position: absolute;
@@ -35,7 +35,7 @@ top: 0;
 left: 0;
 right: 0;
 bottom: 0;
-box-shadow: inset 0 0 2000px rgba(241, 241, 241, 0.5);
+box-shadow: inset 0 0 2000px rgb(93, 93, 93);
 filter: blur(1px);
 }
 `
@@ -45,16 +45,18 @@ grid-area: i;
 width: 100%;
 height: 100%;
 filter: grayscale(1);
-filter: ${props=>props.dayTime == "day" && "invert(100%)"};
+filter: ${props=>props.dayTime === "day" && "invert(100%)"};
 position:relative;
+overflow: hidden;
 `
 
 let StyledIcon = styled.img`
 position: absolute;
 top: 10px;
 left: 10px;
-width: 120px;
+width: 100px;
 height: auto;
+overflow: visible;
 `
 
 let StyledTemp = styled.div`
@@ -64,6 +66,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 font-weight: 700;
+overflow: visible;
 `
 
 let StyledName = styled.div`
@@ -74,6 +77,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 font-weight: 700;
+overflow: visible;
 `
 
 function Day(props){
@@ -89,7 +93,7 @@ function Day(props){
 function Days(props){
   let arr = [];
   for(let i = 0; i < props.days.length; i++){
-    arr.push(<Day temp={props.days[i].temp} date={props.days[i].date} day={props.days[i].day} icon={props.days[i].icon} dayTime={props.dayTime}/>)
+    arr.push(<Day key={i} temp={props.days[i].temp} date={props.days[i].date} day={props.days[i].day} icon={props.days[i].icon} dayTime={props.dayTime}/>)
   }
   return(
     <StyledDays>

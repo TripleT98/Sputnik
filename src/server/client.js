@@ -1,16 +1,6 @@
-let CityList = require("./chema");
 let cities = require("./city.list.json");
 
 class CityListClient{
-  async setCities(req,res){
-    let arr = []
-    let l = 0;
-    for(let i = 10000; i < 13000; i++){
-      l++;
-      arr.push(CityList.create({country:cities[i].country, city:cities[i].name, coords: cities[i].coord}));
-    };
-    Promise.all(arr).then(()=>{res.status(200).json({message: "All cities have been added. Amount: " + l})});
-  }
   async getCities(req,res){
     let arr = [];
     let match = req.query.word;

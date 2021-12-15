@@ -1,28 +1,43 @@
-import styled from "styled-components";
+import styled,{css} from "styled-components";
+import {getNASA_info} from "./../../../DAL/DAL";
+import {useState, useEffect} from "react";
+
 
 let StyledSide = styled.div`
 grid-area: s;
-position: relative;
-z-index: 1;
-background: inherit;
-overflow: hidden;
-&:before{
-content: "";
-position: absolute;
-background: inherit;
-z-index: -1;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-box-shadow: inset 0 0 2000px rgba(241, 241, 241, 0.5);
-filter: blur(1px);
+min-width: 170px;
+background:${props=>`url(${props.backImage})`};
+background-size: cover;
+overflow: auto;
+border-radius: 3px;
+color:rgb(217, 216, 216);
+&::-webkit-scrollbar {
+  width: 0px;
 }
 `
+
+let StyledParagraph = styled.p`
+margin: 20px 15px 15px 15px;
+line-height: 24px;
+text-indent: 20px;
+text-align: justify;
+font-family: "Roboto";
+font-size: 20px;
+font-weight: 600;
+${props=>props.title && css`text-align: center;text-indent: 0px`};
+`
+
 function Side(){
+  useEffect(()=>{
+    getNASA_info().then((data)=>{setText(data.explanation);setImage(data.url);setTitle(data.title)});
+  },[]);
+  let [text, setText] = useState("");
+  let [image, setImage] = useState("");
+  let [title, setTitle] = useState("");
   return (
-    <StyledSide>
-      Side
+    <StyledSide backImage={image}>
+      <StyledParagraph title="true">{title}</StyledParagraph>
+      <StyledParagraph>{text}</StyledParagraph>
     </StyledSide>
   )
 }

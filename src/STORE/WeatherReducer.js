@@ -3,6 +3,7 @@ import {getMinePosition,getInfoAboutCity,getCityList} from "./../DAL/DAL";
 let SET_PLACE = "SET_PLACE";
 let SET_ERR = "SET_ERR";
 let SET_CITY_LIST = "SET_CITY_LIST";
+let SET_FETCH = "SET_FETCH";
 
 let initialState = {
   currentPlace:{
@@ -17,6 +18,8 @@ let initialState = {
   },
   days:[],
   list:[],
+  isFetching: false,
+  fadeToggle: false,
 }
 
 class Day{
@@ -33,8 +36,6 @@ class Day{
 class Days{
   days = ["Monday","Thuesday","Wednsday","Thursday","Friday","Saturday","Sunday"];
 
-  constructor(){
-  }
   getDays(arr){
     let days = [];
     let today = new Date();
@@ -52,7 +53,7 @@ class Days{
 
 function weatherReducer(state=initialState, action){
   switch(action.type){
-    case SET_PLACE:{
+    case SET_PLACE:
       let newDays = new Days().getDays(action.data.list);
       let newState = {
         currentPlace:{
@@ -61,19 +62,25 @@ function weatherReducer(state=initialState, action){
         },
         weather:{
           temperature: (Number(action.data.list[0].main.temp) - 273).toFixed(),
-          humidity: action.data.list[0].main.temp.humidity,
-          pressure: action.data.list[0].main.temp.pressure,
+          humidity: action.data.list[0].main.humidity,
+          pressure: action.data.list[0].main.pressure,
           wind: action.data.list[0].wind.speed.toFixed(),
           icon: action.data.list[0].weather[0].icon.slice(0,2),
         },
-       days: newDays
+       days: newDays,
+       isFetching: false,
+       fadeToggle: !state.fadeToggle,
       }
       return newState;
-    }
-    case SET_CITY_LIST:{
+
+    case SET_CITY_LIST:
       return {...state, list:action.data}
-    }
-    default: return state
+
+    case SET_FETCH:
+      return {...state, isFecthing: action.isFetching}
+
+    default:
+      return state
   }
 }
 
@@ -97,10 +104,18 @@ function setCityListAC(data){
   }
 }
 
+function setFetch(value){
+  return{
+    type: SET_FETCH,
+    isFetching: value
+  }
+}
+
 export function setPlaceThunkCreator(place){
   return function(dispatch){
+     dispatch(setFetch(true));
      if(place){
-       getInfoAboutCity(place).then((data)=>{if(data.cod == 200){dispatch(setPlaceAC(data))}else if(data.cod == 404){setErrAC()}}, (err)=>{setErrAC()});
+       getInfoAboutCity(place).then((data)=>{if(data.cod === 200){dispatch(setPlaceAC(data))}else if(data.cod === 404){setErrAC()}}, (err)=>{setErrAC()});
        return true;
      }
      try{
@@ -114,7 +129,7 @@ export function setPlaceThunkCreator(place){
 
 export function getCityListThunk(word){
   return function(dispatch){
-     getCityList(word).then((data)=>{if(data.cod == 200){dispatch(setCityListAC(data.data))}else if(data.cod == 500){}})
+     getCityList(word).then((data)=>{if(data.cod === 200){dispatch(setCityListAC(data.data))}else if(data.cod === 500){}})
   }
 }
 

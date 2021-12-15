@@ -45,9 +45,9 @@ export let wallpaper = {
     day: "https://img.desktopwallpapers.ru/nature/pics/wide/1920x1080/c34e37b698813ad2b5c32d264f04f245.jpg",
     night: "https://w-dog.ru/wallpapers/9/17/486913746434160/noch-pole-tuman-pejzazh.jpg"
   }
-}
+};
 
-export default {
+let weatherIcons = {
   "01":sun,
   "02":sun_cloud,
   "03":cloud,
@@ -58,3 +58,5 @@ export default {
   "13":snow,
   "50":mist
 };
+
+export default weatherIcons;
