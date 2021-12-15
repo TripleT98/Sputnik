@@ -6,7 +6,9 @@ let StyledDays = styled.div`
 grid-area: d;
 display: flex;
 justify-content: space-between;
-
+@media(max-width: 550px){
+  flex-wrap: wrap;
+}
 `
 
 let StyledDay = styled.div`
@@ -26,6 +28,13 @@ z-index: 1;
 background: inherit;
 overflow: hidden;
 color:${props => props.dayTime === "day" && "black"};
+@media(max-width: 550px){
+ border: 3px solid;
+ font-size: 15px;
+ height: 48%;
+ width: 49%;
+ grid-template-areas: "i t" "i n";
+}
 &:before{
 content: "";
 position: absolute;
@@ -57,6 +66,11 @@ left: 10px;
 width: 100px;
 height: auto;
 overflow: visible;
+@media(max-width: 550px){
+ width: 50px;
+ height: auto;
+ margin-left: 15px;
+}
 `
 
 let StyledTemp = styled.div`

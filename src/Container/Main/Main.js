@@ -16,11 +16,15 @@ grid-gap: 10px;
 width: 100%;
 grid-template-columns: 1fr 1fr 1fr 370px;
 grid-template-rows: 230px 180px 230px;
-
 @media(max-width: 960px){
  grid-template-areas: "m ""m ""s ""d ""d ";
  grid-template-rows: 170px 130px 200px 100px 100px;
  grid-template-columns: 750px;
+}
+@media(max-width: 550px){
+  grid-template-areas: "m ""m ""s ""d ""d ";
+  grid-template-rows: 300px 95px 160px 75px 75px;
+  grid-template-columns: 420px;
 }
 `
 

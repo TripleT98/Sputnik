@@ -1,4 +1,4 @@
-import styled,{css, media, keyframes} from "styled-components";
+import styled,{css, keyframes} from "styled-components";
 import {useState, useEffect} from "react";
 import images from "./../../../Images/Images";
 
@@ -51,6 +51,10 @@ font-family: monospace;
 font-size: 50px;
 text-align: center;
 color: ${props => props.dayTime === "night"?"rgb(235, 235, 235)":"black"};
+@media(max-width: 550px){
+  grid-template-areas: "st" "sn" "si" "sc";
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+}
 `
 // ${props=>css`animation: ${gridAnim1} ${dur} forwards linear;`}
 export let StyledTemperature = styled.div`
@@ -76,7 +80,9 @@ export let StyledTemperature = styled.div`
    @media(max-width: 1200px){
      ${props=>css`animation: ${gridAnim2} ${dur} forwards linear;`}
    }
+
     `}
+
 &:before{
   content: "";
   position: absolute;
@@ -95,12 +101,18 @@ let StyledName = styled(StyledTemperature)`
 flex-direction: column;
 font-size: 50px;
 grid-area: sn;
+@media(max-width: 550px){
+ font-size: 30px;
+}
 `
 
 let StyledTime = styled(StyledTemperature)`
 font-size: 50px;
 grid-area: si;
 min-width: 120px;
+@media(max-width: 550px){
+ font-size: 30px;
+}
 `
 
 let StyledIcon = styled(StyledTemperature)`
@@ -114,6 +126,9 @@ height: auto;
 filter: grayscale(1);
 filter: ${props=>props.dayTime === "day" && "invert(100%)"};
 margin: 0px 10px 0px 10px;
+@media(max-width: 550px){
+ width: 70px;
+}
 `
 
 let StyledParam = styled.div`
@@ -134,6 +149,9 @@ transition-duration: ${dur};
 }
 @media(max-width: 960px){
   ${props=>props.expand && css`font-size: ${props.expand}px`};
+}
+@media(max-width: 550px){
+  font-size: 30px;
 }
 `
 

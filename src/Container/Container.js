@@ -38,6 +38,10 @@ let StyledContainer = styled.div`
     max-width: 750px;
     min-width: 750px;
   }
+  @media(max-width: 550px){
+    max-width: 470px;
+    min-width: 470px;
+  }
 `
 function Container(props){
   useEffect(()=>{
